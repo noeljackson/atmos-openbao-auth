@@ -43,6 +43,10 @@ plugins:
 
 Run `atmos plugin install`, inspect the selected release and commit
 `.atmos.plugins.lock.yaml`. CI and routine consumers restore that exact digest.
+The complete [example](examples/atmos.yaml) also declares the official
+`cloudposse/auth-secrets` 1.1.3 package for `secrets/store` and `secrets/env`.
+That exact dependency passed a fresh signed install and the consumer journeys.
+
 The package must be public before anonymous installation can succeed. Source
 availability or a successful upload alone does not establish that a release is
 ready; see [release verification](docs/releases.md).
