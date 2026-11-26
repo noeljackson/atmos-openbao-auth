@@ -1,3 +1,5 @@
-atmos 1.235.0
-golang 1.27.3
-opentofu 1.13.9
+cloudposse/atmos 1.235.0
+opentofu/opentofu 1.13.9
+oras-project/oras 1.4.0
+gitleaks/gitleaks 8.30.1
+sigstore/cosign 3.1.3

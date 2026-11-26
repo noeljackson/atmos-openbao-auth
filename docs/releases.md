@@ -35,3 +35,8 @@ Consumers commit the package declaration, trusted workflow identity and
 `.atmos.plugins.lock.yaml`. Roll back by restoring a previously verified
 declaration/lock pair. Keep published immutable bytes and signatures while any
 consumer references them.
+
+`ci/configure-github.py` applies the repository's review settings through the
+supported GitHub API: read-only workflow defaults, required CI, signed commits,
+resolved review conversations and private vulnerability reporting. Run it with
+the owner's existing authenticated `gh` session after initializing `main`.

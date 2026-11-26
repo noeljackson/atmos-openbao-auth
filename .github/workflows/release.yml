@@ -1,0 +1,110 @@
+name: Release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+concurrency:
+  group: immutable-plugin-release
+  cancel-in-progress: false
+env:
+  ATMOS_TELEMETRY_ENABLED: 'false'
+  ATMOS_VERSION_CHECK_ENABLED: 'false'
+  ATMOS_TOOLCHAIN_FROZEN_LOCK_FILE: 'true'
+  GOTOOLCHAIN: local
+  GOTELEMETRY: 'off'
+  GOWORK: 'off'
+  GOENV: 'off'
+  GOMAXPROCS: '2'
+  GOFLAGS: '-mod=readonly -trimpath -buildvcs=false -p=2'
+jobs:
+  check:
+    uses: ./.github/workflows/ci.yml
+  publish:
+    needs: check
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    outputs:
+      digest: ${{ steps.publish.outputs.digest }}
+      version: ${{ steps.source.outputs.version }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - name: Require reviewed source and matching version tag
+        id: source
+        shell: bash
+        run: |
+          git merge-base --is-ancestor HEAD origin/main
+          python3 - <<'PY'
+          import os, yaml
+          with open('plugin.yaml') as source:
+              version = yaml.safe_load(source)['metadata']['version']
+          if os.environ['GITHUB_REF'] != 'refs/tags/v' + version:
+              raise SystemExit('Tag does not match manifest version')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('version=' + version + '\n')
+          PY
+          test -z "$(git status --porcelain)"
+      - name: Prepare native publication configuration
+        run: python3 ci/release-config.py
+      - name: Build and pack the immutable release
+        run: |
+          atmos plugin build .
+          atmos plugin test .
+          atmos plugin pack . --output dist/release --format json > .tools/packed.json
+          test -z "$(git status --porcelain)"
+      - name: Publish and sign with the job identity
+        id: publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ATMOS_CLI_CONFIG_PATH: ${{ github.workspace }}/.atmos/release-config
+        run: |
+          atmos plugin publish dist/release --to oci://ghcr.io/noeljackson/atmos-openbao-auth --sign --yes --cosign-version 3.1.3 --format json > dist/publication.json
+          python3 - <<'PY'
+          import json, os
+          with open('dist/publication.json') as source:
+              result = json.load(source)
+          digest = result['digest']
+          if not result['signed'] or not digest.startswith('sha256:') or len(digest) != 71:
+              raise SystemExit('Incomplete publication result')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('digest=' + digest + '\n')
+          PY
+      - uses: actions/attest-build-provenance@8beda2b7ed98355c0e97c0a63bec38ae472e66c4 # v4
+        with:
+          subject-name: ghcr.io/noeljackson/atmos-openbao-auth
+          subject-digest: ${{ steps.publish.outputs.digest }}
+          push-to-registry: false
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        if: always()
+        with:
+          name: publication
+          path: dist/publication.json
+          if-no-files-found: warn
+  verify-public:
+    needs: publish
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - name: Fresh signed anonymous install and frozen restore
+        env:
+          RELEASE_DIGEST: ${{ needs.publish.outputs.digest }}
+          RELEASE_VERSION: ${{ needs.publish.outputs.version }}
+        run: python3 ci/verify-release.py --digest "$RELEASE_DIGEST" --version "$RELEASE_VERSION"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: verified-consumer-lock
+          path: dist/consumer.plugins.lock.yaml
+          if-no-files-found: error

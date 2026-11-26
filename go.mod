@@ -2,6 +2,8 @@ module github.com/noeljackson/atmos-openbao-auth
 
 go 1.26.0
 
+toolchain go1.27.4
+
 require (
 	github.com/cloudposse/atmos/sdk v0.0.0-20261126015722-e488cdf3e09c
 	google.golang.org/grpc v1.85.0

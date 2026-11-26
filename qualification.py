@@ -129,7 +129,7 @@ def configure(root, authority, fixture, tofu, plugin_lock, plugin_cache=None, *,
     shutil.copyfile(MODULE / "plugin.yaml", package / "plugin.yaml")
     manifest = yaml.safe_load((package / "plugin.yaml").read_text())
     import platform
-    arch = {"x86_64": "amd64", "aarch64": "arm64"}[platform.machine()]
+    arch = {"x86_64": "amd64", "aarch64": "arm64", "arm64": "arm64"}[platform.machine()]
     host = f"{platform.system().lower()}/{arch}"
     executable = package / manifest["spec"]["platforms"][host]["executable"]
     executable.parent.mkdir(parents=True)

@@ -1,3 +1,8 @@
 settings:
   metrics:
     enabled: false
+toolchain:
+  install_path: .tools/toolchain
+  lock_file: toolchain.lock.yaml
+  frozen_lock_file: true
+  max_concurrency: 2

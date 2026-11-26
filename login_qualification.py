@@ -28,7 +28,7 @@ def configure(root, fixture, mode):
     shutil.copytree(MODULE / "schemas", package / "schemas")
     shutil.copyfile(MODULE / "plugin.yaml", package / "plugin.yaml")
     manifest = yaml.safe_load((package / "plugin.yaml").read_text())
-    arch = {"x86_64": "amd64", "aarch64": "arm64"}[platform.machine()]
+    arch = {"x86_64": "amd64", "aarch64": "arm64", "arm64": "arm64"}[platform.machine()]
     executable = package / manifest["spec"]["platforms"][f"{platform.system().lower()}/{arch}"]["executable"]
     executable.parent.mkdir(parents=True)
     shutil.copyfile(fixture, executable)

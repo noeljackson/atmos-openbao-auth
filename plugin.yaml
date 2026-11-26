@@ -27,6 +27,7 @@ spec:
     contracts:
       auth.provider: '>=1'
       auth.identity: '>=1'
+    atmos: '>=1.235.0'
   capabilities:
     auth:
       providers:

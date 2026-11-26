@@ -5,6 +5,7 @@ import (
 	_ "embed"
 	"encoding/hex"
 	"net/http"
+	"os"
 	"syscall"
 	"time"
 
@@ -19,7 +20,17 @@ const pluginName = "noeljackson/openbao-auth"
 //go:embed plugin.yaml
 var manifestData []byte
 
+//go:embed LICENSE
+var licenseText string
+
+//go:embed THIRD_PARTY_NOTICES.txt
+var thirdPartyNotices string
+
 func main() {
+	if len(os.Args) == 2 && os.Args[1] == "--licenses" {
+		_, _ = os.Stdout.WriteString(licenseText + "\n" + thirdPartyNotices)
+		return
+	}
 	if syscall.Setrlimit(syscall.RLIMIT_CORE, &syscall.Rlimit{}) != nil {
 		panic("process hardening failed")
 	}

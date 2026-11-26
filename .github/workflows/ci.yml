@@ -1,0 +1,54 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+permissions:
+  contents: read
+env:
+  ATMOS_TELEMETRY_ENABLED: 'false'
+  ATMOS_VERSION_CHECK_ENABLED: 'false'
+  ATMOS_TOOLCHAIN_FROZEN_LOCK_FILE: 'true'
+  GOTOOLCHAIN: local
+  GOTELEMETRY: 'off'
+  GOWORK: 'off'
+  GOENV: 'off'
+  GOMAXPROCS: '2'
+jobs:
+  native:
+    name: Native (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - run: ci/native-check
+  security:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - run: gitleaks git --redact --no-banner .
+      - run: ci/install-govulncheck
+      - run: .tools/govulncheck ./...
+  required:
+    if: always()
+    needs: [native, security]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - env:
+          NATIVE_RESULT: ${{ needs.native.result }}
+          SECURITY_RESULT: ${{ needs.security.result }}
+        run: test "$NATIVE_RESULT" = success && test "$SECURITY_RESULT" = success

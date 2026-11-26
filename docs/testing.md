@@ -18,6 +18,11 @@ logs for the synthetic credentials. Missing fields, failed revocation,
 ambient-token injection, cancellation and a calibrated negative control are
 included. Only local `terraform_data` state is created.
 
+CI restores its exact official plugin fixture from an OCI layout and the pinned
+public Sigstore bundle in `testdata/`. Atmos still verifies the bundle against
+its trusted Sigstore root. The fixture records the upstream online-referrer
+limit; it is not a production signature-verification bypass.
+
 `login_qualification.py` runs native login through a PTY with synthetic sessions
 and a fake browser opener. It covers browser/device presentation, second-process
 reuse, malformed/noninteractive prompts and both cancellation signals. The fake

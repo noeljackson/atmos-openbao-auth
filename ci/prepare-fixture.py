@@ -30,7 +30,7 @@ def main():
     env["DOCKER_CONFIG"] = str(docker)
     layout = directory / "official-layout"
     if not layout.exists():
-        subprocess.run([str(ROOT / ".tools/oras"), "cp", "--to-oci-layout", spec["source"], str(layout) + ":fixture"], env=env, check=True, timeout=180)
+        subprocess.run(["oras", "cp", "--to-oci-layout", spec["source"], str(layout) + ":fixture"], env=env, check=True, timeout=180)
     # ORAS exposes both the root index and its platform manifests as layout
     # roots. Atmos's offline reader expects exactly the unchanged release index.
     index_path = layout / "index.json"

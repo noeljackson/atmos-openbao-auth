@@ -4,5 +4,6 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
 export GOTOOLCHAIN=local GOTELEMETRY=off GOENV=off GOWORK=off
 test -z "$(gofmt -l -- *.go)"
 go mod verify
+python3 ci/licenses.py --check
 go test -race ./...
 go vet ./...

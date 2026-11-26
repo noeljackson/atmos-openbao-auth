@@ -136,9 +136,14 @@ privileges, so both the plugin and any configured session client must be trusted
 
 ## Development and compatibility
 
+The source uses Apache-2.0. Each released executable includes its license and
+third-party notices; run the executable with `--licenses` to read them.
+
 The initial support matrix is Linux and macOS, amd64 and arm64. The tested host
-is Atmos 1.235.0, with operation-scoped Vault identities. Compiler and tool
-artifacts are pinned for CI. The SDK is pinned to released Atmos source while
+is Atmos 1.235.0, with operation-scoped Vault identities. The compiler is pinned
+in `go.mod`; Atmos manages the other tools through `.tool-versions` and a frozen
+`toolchain.lock.yaml`. Only the initial Atmos host needs the checksum-pinned
+bootstrap helper. The SDK is pinned to released Atmos source while
 upstream's independently tagged SDK module is unavailable.
 
 ```sh
