@@ -3,12 +3,22 @@ description: Bootstrap Atmos and install the frozen native toolchain
 runs:
   using: composite
   steps:
+    - id: compiler
+      shell: bash
+      run: |
+        version=$(awk '$1 == "toolchain" { print $2 }' go.mod)
+        test -n "$version"
+        echo "version=${version#go}" >> "$GITHUB_OUTPUT"
     - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
       with:
-        go-version-file: go.mod
+        go-version: ${{ steps.compiler.outputs.version }}
         cache: true
     - shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        EXPECTED_GO_VERSION: go${{ steps.compiler.outputs.version }}
       run: |
+        test "$(go env GOVERSION)" = "$EXPECTED_GO_VERSION"
         python3 -m venv .tools/python
         .tools/python/bin/python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.txt
         echo "$PWD/.tools/python/bin" >> "$GITHUB_PATH"
