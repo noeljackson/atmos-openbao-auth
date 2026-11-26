@@ -2,7 +2,7 @@ apiVersion: atmos/v1
 kind: AtmosPluginConfig
 metadata:
   name: noeljackson/openbao-auth
-  version: 0.1.0
+  version: 0.1.1
   display_name: OpenBao authentication
   description: Bounded native Atmos OpenBao JWT exchange with optional local OIDC
     session integration

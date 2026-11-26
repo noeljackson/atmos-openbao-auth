@@ -57,7 +57,7 @@ jobs:
         run: python3 ci/release-config.py
       - name: Build and pack the immutable release
         run: |
-          atmos plugin build .
+          atmos plugin build . --all-platforms
           atmos plugin test .
           atmos plugin pack . --output dist/release --format json > .tools/packed.json
           test -z "$(git status --porcelain)"

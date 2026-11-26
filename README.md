@@ -32,7 +32,7 @@ plugins:
   packages:
     openbao:
       source: oci://ghcr.io/noeljackson/atmos-openbao-auth
-      version: 0.1.0
+      version: 0.1.1
   policy:
     require_signature: true
     trusted_publishers:
