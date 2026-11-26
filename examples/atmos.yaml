@@ -3,7 +3,7 @@ plugins:
   packages:
     openbao:
       source: oci://ghcr.io/noeljackson/atmos-openbao-auth
-      version: 0.1.0
+      version: 0.1.1
     secrets:
       source: oci://ghcr.io/cloudposse/atmos/plugins/auth-secrets
       version: 1.1.0
