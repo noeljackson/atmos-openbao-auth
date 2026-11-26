@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
+export PATH="$PWD/.tools:$PATH"
+export GOTOOLCHAIN=local GOTELEMETRY=off GOENV=off GOWORK=off
+export ATMOS_TELEMETRY_ENABLED=false ATMOS_VERSION_CHECK_ENABLED=false
+export GOFLAGS="-mod=readonly -trimpath -p=${GOMAXPROCS:-2}"
+mkdir -p .atmos/tmp .atmos/journeys
+export TMPDIR="$PWD/.atmos/tmp"
+python3 ci/prepare-fixture.py
+go test -c -o .atmos/session.test .
+if [[ "$(uname -s)" == Linux ]]; then
+  atmos plugin release . --check
+else
+  atmos plugin build .
+  atmos plugin test .
+fi
+common=(--atmos "$PWD/.tools/atmos" --fixture "$PWD/.atmos/session.test" --scratch-root "$PWD/.atmos/journeys")
+consumer=(--plugin-lock "$PWD/testdata/auth-secrets.lock.yaml" --plugin-cache "$PWD/.atmos/fixtures/cache" --tofu "$PWD/.tools/tofu")
+python3 qualification.py "${common[@]}" "${consumer[@]}"
+python3 qualification.py "${common[@]}" "${consumer[@]}" --case cancel-auth --signal SIGTERM
+python3 qualification.py "${common[@]}" "${consumer[@]}" --case cancel-read --signal SIGTERM
+python3 qualification.py "${common[@]}" "${consumer[@]}" --case ambient-tokens --negative-control-ambient
+python3 login_qualification.py "${common[@]}"

@@ -1,0 +1,9 @@
+{
+  "source": "ghcr.io/cloudposse/atmos/plugins/auth-secrets@sha256:f1e3b85705f5ecf0340acf0259d952031ac0e83d2a02c51175158919fcd6f3ab",
+  "index_digest": "sha256:f1e3b85705f5ecf0340acf0259d952031ac0e83d2a02c51175158919fcd6f3ab",
+  "signature_file": "auth-secrets.sigstore.json",
+  "signature_sha256": "35b74443a7e25e53c43ca138bb60d87a8c6a6b0cee88fce1129f80f76f96fa75",
+  "publisher": "cloudposse",
+  "identity": "https://github.com/cloudposse/atmos/.github/workflows/plugin-packages.yaml@refs/heads/main",
+  "issuer": "https://token.actions.githubusercontent.com"
+}

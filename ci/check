@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
+export GOTOOLCHAIN=local GOTELEMETRY=off GOENV=off GOWORK=off
+test -z "$(gofmt -l -- *.go)"
+go mod verify
+go test -race ./...
+go vet ./...

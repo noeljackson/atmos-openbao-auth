@@ -1,0 +1,5 @@
+version: 1
+steps:
+  - name: native-auth-regressions
+    type: shell
+    command: ./ci/check

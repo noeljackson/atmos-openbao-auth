@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "go": "1.27.3",
+  "sdk_source": "e488cdf3e09c6408bcea7cceb00e6c5e5bafddde",
+  "tools": {
+    "atmos": {
+      "version": "1.235.0",
+      "repository": "https://github.com/cloudposse/atmos",
+      "platforms": {
+        "linux/amd64": {
+          "url": "https://github.com/cloudposse/atmos/releases/download/v1.235.0/atmos_1.235.0_linux_amd64",
+          "sha256": "29d75f2d24da947ff3ddf562a2ed1634c56ae2d03ddd6c4f76e7ead989ca368a",
+          "size": 330903714,
+          "format": "binary",
+          "member": null
+        },
+        "linux/arm64": {
+          "url": "https://github.com/cloudposse/atmos/releases/download/v1.235.0/atmos_1.235.0_linux_arm64",
+          "sha256": "1ca7557f819cc31f0cfad051606ce283d6d0a108b934ac3cc8395d9c8e652aa5",
+          "size": 303431842,
+          "format": "binary",
+          "member": null
+        },
+        "darwin/amd64": {
+          "url": "https://github.com/cloudposse/atmos/releases/download/v1.235.0/atmos_1.235.0_darwin_amd64",
+          "sha256": "b7856fdd1291896cb6af4e38a0a7f088575825c4dadd5cab1491e40c35ec0c16",
+          "size": 338120720,
+          "format": "binary",
+          "member": null
+        },
+        "darwin/arm64": {
+          "url": "https://github.com/cloudposse/atmos/releases/download/v1.235.0/atmos_1.235.0_darwin_arm64",
+          "sha256": "07fe16b98e41c81296815c016e34a9b26a1ca27b9ad9a4451d1ecd8794707fda",
+          "size": 313033442,
+          "format": "binary",
+          "member": null
+        }
+      }
+    },
+    "tofu": {
+      "version": "1.13.9",
+      "repository": "https://github.com/opentofu/opentofu",
+      "platforms": {
+        "linux/amd64": {
+          "url": "https://github.com/opentofu/opentofu/releases/download/v1.13.9/tofu_1.13.9_linux_amd64.tar.gz",
+          "sha256": "b34b327cc1ef07178207b6f2cd1f5276537d3e5b7be316500f6dac50d4c0a857",
+          "size": 35124830,
+          "format": "tar.gz",
+          "member": "tofu"
+        },
+        "linux/arm64": {
+          "url": "https://github.com/opentofu/opentofu/releases/download/v1.13.9/tofu_1.13.9_linux_arm64.tar.gz",
+          "sha256": "5dc196dde75b667e4806d358310ec96742774cd0993c54c1237efee5644b69b8",
+          "size": 31324329,
+          "format": "tar.gz",
+          "member": "tofu"
+        },
+        "darwin/amd64": {
+          "url": "https://github.com/opentofu/opentofu/releases/download/v1.13.9/tofu_1.13.9_darwin_amd64.tar.gz",
+          "sha256": "347e2e5a2cfe2f368829572d308b2e7c1e0486b20a1779090ff06360f7551e4f",
+          "size": 35951207,
+          "format": "tar.gz",
+          "member": "tofu"
+        },
+        "darwin/arm64": {
+          "url": "https://github.com/opentofu/opentofu/releases/download/v1.13.9/tofu_1.13.9_darwin_arm64.tar.gz",
+          "sha256": "496f4c3064b5c3bff79174b3dae4faaf65a66774eb8e2bf074f895412c5f124f",
+          "size": 32951827,
+          "format": "tar.gz",
+          "member": "tofu"
+        }
+      }
+    },
+    "oras": {
+      "version": "1.4.0",
+      "repository": "https://github.com/oras-project/oras",
+      "platforms": {
+        "linux/amd64": {
+          "url": "https://github.com/oras-project/oras/releases/download/v1.4.0/oras_1.4.0_linux_amd64.tar.gz",
+          "sha256": "d8e1dce2fd8ce996f1d901845b688eb0cf505a6082897606f053825bb47935d1",
+          "size": 6030754,
+          "format": "tar.gz",
+          "member": "oras"
+        },
+        "linux/arm64": {
+          "url": "https://github.com/oras-project/oras/releases/download/v1.4.0/oras_1.4.0_linux_arm64.tar.gz",
+          "sha256": "0791fc200831563e498638d30e8ee8aac20ad1da2610760120fe3f770e12a8a4",
+          "size": 5423034,
+          "format": "tar.gz",
+          "member": "oras"
+        },
+        "darwin/amd64": {
+          "url": "https://github.com/oras-project/oras/releases/download/v1.4.0/oras_1.4.0_darwin_amd64.tar.gz",
+          "sha256": "17d5c1b435023fe86c3a36bfbf048ac352c61484350c5250ce31131f104a2802",
+          "size": 6124568,
+          "format": "tar.gz",
+          "member": "oras"
+        },
+        "darwin/arm64": {
+          "url": "https://github.com/oras-project/oras/releases/download/v1.4.0/oras_1.4.0_darwin_arm64.tar.gz",
+          "sha256": "0a7f499bb28793a97bd0939de8654607e753ff6082fd72697a700868b9cdab53",
+          "size": 5628030,
+          "format": "tar.gz",
+          "member": "oras"
+        }
+      }
+    },
+    "gitleaks": {
+      "version": "8.30.1",
+      "repository": "https://github.com/gitleaks/gitleaks",
+      "platforms": {
+        "linux/amd64": {
+          "url": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz",
+          "sha256": "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb",
+          "size": 8230402,
+          "format": "tar.gz",
+          "member": "gitleaks"
+        },
+        "linux/arm64": {
+          "url": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_arm64.tar.gz",
+          "sha256": "e4a487ee7ccd7d3a7f7ec08657610aa3606637dab924210b3aee62570fb4b080",
+          "size": 7601421,
+          "format": "tar.gz",
+          "member": "gitleaks"
+        },
+        "darwin/amd64": {
+          "url": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_darwin_x64.tar.gz",
+          "sha256": "dfe101a4db2255fc85120ac7f3d25e4342c3c20cf749f2c20a18081af1952709",
+          "size": 8359235,
+          "format": "tar.gz",
+          "member": "gitleaks"
+        },
+        "darwin/arm64": {
+          "url": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_darwin_arm64.tar.gz",
+          "sha256": "b40ab0ae55c505963e365f271a8d3846efbc170aa17f2607f13df610a9aeb6a5",
+          "size": 7897593,
+          "format": "tar.gz",
+          "member": "gitleaks"
+        }
+      }
+    }
+  }
+}

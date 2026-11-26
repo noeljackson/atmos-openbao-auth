@@ -1,0 +1,46 @@
+apiVersion: atmos/v1
+kind: AtmosPluginConfig
+metadata:
+  name: noeljackson/openbao-auth
+  version: 0.1.0
+  display_name: OpenBao authentication
+  description: Bounded native Atmos OpenBao JWT exchange with optional local OIDC
+    session integration
+  author: Noel Jackson
+  repository: https://github.com/noeljackson/atmos-openbao-auth
+spec:
+  runtime:
+    type: native
+    protocol: 1
+    executable: bin/plugin
+  platforms:
+    linux/amd64:
+      executable: bin/linux-amd64/plugin
+    linux/arm64:
+      executable: bin/linux-arm64/plugin
+    darwin/amd64:
+      executable: bin/darwin-amd64/plugin
+    darwin/arm64:
+      executable: bin/darwin-arm64/plugin
+  compatibility:
+    protocol: '>=1 <2'
+    contracts:
+      auth.provider: '>=1'
+      auth.identity: '>=1'
+  capabilities:
+    auth:
+      providers:
+        noeljackson/oidc-session:
+          schema: schemas/provider.json
+          credentials:
+          - oidc/v1
+          features:
+          - logout
+      identities:
+        noeljackson/openbao:
+          schema: schemas/identity.json
+          schema_target: spec
+          accepts:
+          - oidc/v1
+          credentials:
+          - environment/v1

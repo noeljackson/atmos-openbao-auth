@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "issuer",
+    "client_id",
+    "subject",
+    "login_method",
+    "session_client"
+  ],
+  "properties": {
+    "issuer": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "maxLength": 2048
+    },
+    "client_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "login_method": {
+      "enum": [
+        "existing",
+        "browser",
+        "device"
+      ]
+    },
+    "session_client": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "pattern": "^(~/|/)"
+    }
+  },
+  "additionalProperties": false
+}

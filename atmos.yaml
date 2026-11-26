@@ -1,0 +1,3 @@
+settings:
+  metrics:
+    enabled: false
