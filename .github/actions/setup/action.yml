@@ -8,6 +8,8 @@ runs:
         go-version-file: go.mod
         cache: true
     - shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         python3 -m venv .tools/python
         .tools/python/bin/python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.txt
